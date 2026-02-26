@@ -1,0 +1,33 @@
+/* ========================================
+   Footer
+   ======================================== */
+
+.footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer__copy {
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.footer__top {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition);
+}
+
+.footer__top:hover {
+  color: var(--accent);
+}
+

@@ -1,0 +1,12 @@
+/* ========================================
+   Contact Form Feedback
+   ======================================== */
+
+.contact-form__feedback {
+  margin-top: 14px;
+  font-size: .88rem;
+  font-weight: 500;
+  min-height: 1.4em;
+}
+.contact-form__feedback--success { color: #16a34a; }
+.contact-form__feedback--error   { color: #dc2626; }

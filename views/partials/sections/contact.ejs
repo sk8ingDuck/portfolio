@@ -1,0 +1,104 @@
+  <!-- ==================== Kontakt ==================== -->
+  <section class="section section--alt" id="contact">
+    <div class="section__deco" aria-hidden="true">
+      <!-- Network mesh -->
+      <svg class="section__deco-shape section__deco-shape--g" viewBox="0 0 160 160" fill="none">
+        <line x1="30" y1="30" x2="80" y2="50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="50" x2="130" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="50" x2="80" y2="110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="110" x2="30" y2="130" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="110" x2="130" y2="130" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="30" y1="30" x2="30" y2="130" stroke="currentColor" stroke-width="1" opacity=".35" stroke-linecap="round"/>
+        <line x1="130" y1="30" x2="130" y2="130" stroke="currentColor" stroke-width="1" opacity=".35" stroke-linecap="round"/>
+        <line x1="30" y1="130" x2="130" y2="130" stroke="currentColor" stroke-width="1" opacity=".35" stroke-linecap="round"/>
+        <circle cx="30" cy="30" r="4" fill="currentColor"/>
+        <circle cx="130" cy="30" r="4" fill="currentColor"/>
+        <circle cx="80" cy="50" r="5" fill="currentColor" opacity=".5"/>
+        <circle cx="80" cy="110" r="5" fill="currentColor" opacity=".5"/>
+        <circle cx="30" cy="130" r="4" fill="currentColor"/>
+        <circle cx="130" cy="130" r="4" fill="currentColor"/>
+        <circle cx="80" cy="80" r="2.5" fill="currentColor" opacity=".4"/>
+      </svg>
+      <!-- Signal zigzag -->
+      <svg class="section__deco-shape section__deco-shape--h" viewBox="0 0 70 70" fill="none">
+        <path d="M8 55l12-18 12 12 12-18 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="8" cy="55" r="3" fill="currentColor"/>
+        <circle cx="56" cy="43" r="3" fill="currentColor"/>
+        <line x1="56" y1="43" x2="65" y2="43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <!-- Connection endpoints -->
+      <svg class="section__deco-shape section__deco-shape--i" viewBox="0 0 100 100" fill="none">
+        <circle cx="25" cy="25" r="4" fill="currentColor"/>
+        <circle cx="75" cy="25" r="3.5" fill="currentColor"/>
+        <circle cx="50" cy="50" r="5" fill="currentColor" opacity=".5"/>
+        <circle cx="25" cy="75" r="3.5" fill="currentColor"/>
+        <circle cx="75" cy="75" r="4" fill="currentColor"/>
+        <line x1="25" y1="25" x2="50" y2="50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="75" y1="25" x2="50" y2="50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="25" y2="75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="75" y2="75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="25" y1="25" x2="75" y2="25" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/>
+        <line x1="25" y1="75" x2="75" y2="75" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">05</span>
+        <h2 class="section-title">
+          <span class="title-bracket">&lt;</span>
+          <span class="title-text">Kontakt</span>
+          <span class="title-bracket">/&gt;</span>
+        </h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact__intro reveal">
+        <p class="contact__intro-sub">Haben Sie ein Projekt im Kopf? Schreiben Sie mir, ich antworte schnell.</p>
+      </div>
+
+      <div class="contact__layout">
+        <!-- Kontaktformular -->
+        <form class="contact-form reveal" id="contactForm" data-delay="1">
+          <div class="contact-form__group">
+            <label for="contactName" class="contact-form__label">Name</label>
+            <input type="text" id="contactName" name="name" class="contact-form__input" placeholder="Ihr Name" required>
+          </div>
+          <div class="contact-form__group">
+            <label for="contactEmail" class="contact-form__label">E-Mail</label>
+            <input type="email" id="contactEmail" name="email" class="contact-form__input" placeholder="ihre@email.de" required>
+          </div>
+          <div class="contact-form__group">
+            <label for="contactMessage" class="contact-form__label">Nachricht</label>
+            <textarea id="contactMessage" name="message" class="contact-form__input contact-form__textarea" placeholder="Wie kann ich Ihnen helfen?" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary contact-form__submit">Nachricht senden</button>
+          <p class="contact-form__feedback" id="formFeedback" aria-live="polite"></p>
+        </form>
+
+        <!-- Sidebar: Kontaktlinks -->
+        <div class="contact__sidebar reveal" data-delay="2">
+          <p class="contact__sidebar-title">Oder direkt erreichen</p>
+          <div class="contact__links">
+            <a href="mailto:info@alexander-atanasov.de" class="contact-link contact-link--email">
+              <span class="contact-link__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <span class="contact-link__text">E-Mail</span>
+            </a>
+            <a href="tel:+4917634393175" class="contact-link contact-link--phone">
+              <span class="contact-link__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.35a2 2 0 0 1-.45 2.11L8.09 9.43a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.54.55 2.35.68A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <span class="contact-link__text">Telefon</span>
+            </a>
+            <a href="https://wa.me/4917634393175" target="_blank" rel="noopener" class="contact-link contact-link--whatsapp">
+              <span class="contact-link__icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.76.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.3-.02-.46.13-.6.13-.14.3-.35.44-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.91-2.2-.24-.57-.49-.5-.67-.5h-.58c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35m-5.44 7.43h-.02a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37A9.87 9.87 0 0 1 2.12 12c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.86 9.86 0 0 1 2.9 7.01c0 5.46-4.44 9.9-9.9 9.9M20.52 3.48A11.97 11.97 0 0 0 12.05 0C5.49 0 .16 5.33.16 11.88c0 2.1.55 4.14 1.58 5.95L0 24l6.3-1.65a11.87 11.87 0 0 0 5.69 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.18-1.23-6.16-3.48-8.41"/></svg>
+              </span>
+              <span class="contact-link__text">WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>

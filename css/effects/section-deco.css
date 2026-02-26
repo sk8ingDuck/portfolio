@@ -1,0 +1,103 @@
+/* ========================================
+   Section Deco Shapes (shared)
+   ======================================== */
+
+.section__deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.section__deco-shape {
+  position: absolute;
+  opacity: .4;
+}
+
+/* --- Skills deco (a, b, c) --- */
+.section__deco-shape--a {
+  width: 140px;
+  height: 140px;
+  color: #8fa5d4;
+  top: -30px;
+  left: -30px;
+  transform: rotate(20deg);
+}
+
+.section__deco-shape--b {
+  width: 80px;
+  height: 80px;
+  color: #8faed6;
+  bottom: 40px;
+  right: 5%;
+  opacity: .35;
+}
+
+.section__deco-shape--c {
+  width: 60px;
+  height: 60px;
+  color: #93aadf;
+  top: 35%;
+  right: -10px;
+  transform: rotate(-15deg);
+}
+
+/* --- Projekte deco (d, e, f) --- */
+.section__deco-shape--d {
+  width: 120px;
+  height: 120px;
+  color: #9badd6;
+  top: 20px;
+  right: -30px;
+  transform: rotate(12deg);
+  opacity: .35;
+}
+
+.section__deco-shape--e {
+  width: 90px;
+  height: 90px;
+  color: #8faed6;
+  bottom: -20px;
+  left: 5%;
+  opacity: .4;
+}
+
+.section__deco-shape--f {
+  width: 50px;
+  height: 50px;
+  color: #7bafb8;
+  top: 40%;
+  left: -15px;
+  transform: rotate(25deg);
+}
+
+/* --- Kontakt deco (g, h, i) --- */
+.section__deco-shape--g {
+  width: 160px;
+  height: 160px;
+  color: #8fa5d4;
+  bottom: -40px;
+  right: -40px;
+  transform: rotate(-18deg);
+  opacity: .4;
+}
+
+.section__deco-shape--h {
+  width: 70px;
+  height: 70px;
+  color: #8faed6;
+  top: 30px;
+  left: 8%;
+  transform: rotate(10deg);
+  opacity: .35;
+}
+
+.section__deco-shape--i {
+  width: 100px;
+  height: 100px;
+  color: #9badd6;
+  top: 50%;
+  right: 10%;
+  opacity: .3;
+}
+

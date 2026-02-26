@@ -1,0 +1,54 @@
+/* ========================================
+   Design System
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #FAFBFC;
+  --surface: #FFFFFF;
+  --text: #1A1D23;
+  --text-secondary: #5A6170;
+  --text-muted: #8E95A2;
+  --accent: #2563EB;
+  --accent-light: #DBEAFE;
+  --accent-hover: #1D4ED8;
+  --border: #E5E7EB;
+  --hero-top: #EFF6FF;
+  --hero-bottom: #FAFBFC;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --nav-h: 64px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 100px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.1);
+  --transition: .25s cubic-bezier(.4,0,.2,1);
+  --fs-body: 17px;
+  --lh-body: 1.7;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
