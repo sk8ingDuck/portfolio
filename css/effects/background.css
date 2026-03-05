@@ -17,10 +17,25 @@
 #bgStars {
   overflow: hidden;
   --star-rgb: 37, 99, 235;
+  --star-core-alpha: 0.81;
+  --star-twinkle-min-opacity: 0.38;
+  --star-twinkle-max-opacity: 0.83;
+  --star-twinkle-min-scale: 0.86;
+  --star-twinkle-max-scale: 1.17;
+  --star-glow:
+    0 0 0 1px rgba(var(--star-rgb), 0.07),
+    0 0 7px rgba(var(--star-rgb), 0.16),
+    0 0 14px rgba(var(--star-rgb), 0.09);
 }
 
 [data-theme="dark"] #bgStars {
   --star-rgb: 147, 197, 253;
+  --star-core-alpha: 0.95;
+  --star-twinkle-min-opacity: 0.35;
+  --star-twinkle-max-opacity: 0.95;
+  --star-twinkle-min-scale: 0.82;
+  --star-twinkle-max-scale: 1.18;
+  --star-glow: 0 0 8px rgba(var(--star-rgb), 0.22);
 }
 
 .star {
@@ -37,19 +52,20 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: rgba(var(--star-rgb), 0.95);
+  background: rgba(var(--star-rgb), var(--star-core-alpha));
+  box-shadow: var(--star-glow);
   animation: starTwinkle var(--twinkle-duration, 3s) infinite ease-in-out;
   animation-delay: var(--twinkle-delay, 0s);
 }
 
 @keyframes starTwinkle {
   0%, 100% {
-    opacity: .35;
-    transform: scale(.82);
+    opacity: var(--star-twinkle-min-opacity);
+    transform: scale(var(--star-twinkle-min-scale));
   }
   50% {
-    opacity: .95;
-    transform: scale(1.18);
+    opacity: var(--star-twinkle-max-opacity);
+    transform: scale(var(--star-twinkle-max-scale));
   }
 }
 

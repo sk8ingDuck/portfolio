@@ -10,15 +10,156 @@
   margin-bottom: 36px;
 }
 
-.projects__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
+/* 3D Glass Carousel */
+.projects__carousel {
+  --shift-x: 32vw;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  perspective: 2000px;
+  padding-block: 12px 40px;
+}
+
+.projects__stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  cursor: grab;
+  user-select: none;
+}
+.projects__stage:active { cursor: grabbing; }
+
+.projects__slide {
+  position: absolute;
+  width: clamp(280px, 28vw, 380px);
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+}
+
+.projects__slide--active {
+  transform: translate3d(0, 0, 200px) rotateY(0deg);
+  z-index: 10;
+  opacity: 1;
+  cursor: default;
+}
+.projects__slide--left {
+  transform: translate3d(calc(var(--shift-x) * -1), 0, -150px) rotateY(35deg) scale(0.85);
+  z-index: 5;
+  opacity: 0.5;
+}
+.projects__slide--right {
+  transform: translate3d(var(--shift-x), 0, -150px) rotateY(-35deg) scale(0.85);
+  z-index: 5;
+  opacity: 0.5;
+}
+.projects__slide--far-left {
+  transform: translate3d(calc(var(--shift-x) * -1.8), 0, -400px) rotateY(45deg) scale(0.6);
+  z-index: 1;
+  opacity: 0.2;
+}
+.projects__slide--far-right {
+  transform: translate3d(calc(var(--shift-x) * 1.8), 0, -400px) rotateY(-45deg) scale(0.6);
+  z-index: 1;
+  opacity: 0.2;
+}
+.projects__slide--hidden {
+  transform: translate3d(0, 0, -800px) scale(0.1);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Suppress hover lift on non-active cards */
+.projects__slide:not(.projects__slide--active) .project-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border);
+}
+
+/* Controls pill */
+.carousel-controls {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 100px;
+  width: fit-content;
+  min-width: 300px;
+  margin-inline: auto;
+  gap: 0;
+}
+
+.carousel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0 20px;
+  height: 36px;
+  transition: color .2s ease, opacity .2s ease;
+}
+.carousel__arrow:hover { color: var(--accent); }
+.carousel__arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.carousel__arrow--disabled { opacity: 0.3; pointer-events: none; }
+
+.carousel__dots {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.carousel__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--border);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.carousel__dot:hover:not(.carousel__dot--active) {
+  background: var(--text-secondary);
+  transform: scale(1.3);
+}
+.carousel__dot--active {
+  background: var(--accent);
+  width: 18px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(37,99,235,.4);
+}
+.carousel__dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* GitHub section below carousel */
+.gh-desc-outer {
+  font-size: .95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin: 48px 0 16px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .projects__slide { transition: opacity .15s ease; }
+  .carousel__dot { transition: background .15s ease; }
 }
 
 .project-card {
+  display: block;
+  width: 100%;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1.5px solid rgba(108, 130, 245, .38);
   border-radius: var(--radius);
   overflow: hidden;
   transition: all .3s cubic-bezier(.4,0,.2,1);
@@ -69,36 +210,37 @@
 }
 
 .project-card__preview {
-  height: 190px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .4s ease;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
 }
 
-.project-card__preview--1 {
-  background: linear-gradient(135deg, #dbeafe, #ede9fe);
+.project-card__preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 28%, rgba(15, 23, 42, .2) 100%);
+  opacity: .42;
+  transition: opacity .3s ease;
 }
 
-.project-card__preview--2 {
-  background: linear-gradient(135deg, #dcfce7, #dbeafe);
+.project-card__thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
 }
 
-.project-card__preview--3 {
-  background: linear-gradient(135deg, #fed7aa, #fecaca);
+.project-card:hover .project-card__thumb {
+  transform: scale(1.03);
 }
 
-.project-card__preview-text {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: rgba(255,255,255,.6);
-  letter-spacing: -.02em;
-  transition: transform .3s ease, color .3s ease;
-}
-
-.project-card:hover .project-card__preview-text {
-  transform: scale(1.05);
-  color: rgba(255,255,255,.75);
+.project-card:hover .project-card__preview::after {
+  opacity: .58;
 }
 
 .project-card__body {
@@ -144,35 +286,264 @@
   transform: translateX(2px);
 }
 
-/* GitHub card */
+/* ================================================
+   GitHub Insights – light/dark adaptive card
+   ================================================ */
+
 .project-github {
-  grid-column: 1 / -1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 36px 32px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Light-mode defaults via CSS custom properties */
+.project-github--insights {
+  --gh-bg:            linear-gradient(150deg, #f7faff 0%, #eef4ff 55%, #f3eeff 100%);
+  --gh-border:        rgba(37, 99, 235, .14);
+  --gh-shadow:        0 2px 0 rgba(0,0,0,.04), 0 8px 28px rgba(37,99,235,.07);
+  --gh-hover-border:  rgba(37, 99, 235, .32);
+  --gh-hover-shadow:  0 2px 0 rgba(0,0,0,.04), 0 18px 44px rgba(37,99,235,.11);
+  --gh-shimmer:       linear-gradient(90deg, transparent, rgba(37,99,235,.14) 50%, transparent);
+  --gh-glow:          rgba(124, 58, 237, .05);
+  --gh-octocat:       #000;
+  --gh-username:      var(--text);
+  --gh-tagline:       var(--text-muted);
+  --gh-section-title: var(--text-secondary);
+  --gh-meta-color:    var(--text-muted);
+  --gh-grid-line:     rgba(37, 99, 235, .08);
+  --gh-bar-zero:      rgba(37, 99, 235, .1);
+  --gh-days-color:    var(--text-muted);
+  --gh-cta-bg:        rgba(37, 99, 235, .08);
+  --gh-cta-border:    rgba(37, 99, 235, .2);
+  --gh-cta-color:     var(--accent);
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--gh-bg);
+  border: 1px solid var(--gh-border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--gh-shadow);
+  padding: 26px 26px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, border-color .3s ease;
+}
+
+/* Top shimmer line */
+.project-github--insights::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gh-shimmer);
+  pointer-events: none;
+}
+
+/* Ambient glow bottom-right */
+.project-github--insights::after {
+  content: '';
+  position: absolute;
+  bottom: -70px; right: -50px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gh-glow) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.project-github--insights:hover {
+  transform: translateY(-4px);
+  border-color: var(--gh-hover-border);
+  box-shadow: var(--gh-hover-shadow);
+}
+
+
+/* ---- Centered profile ---- */
+.gh-profile {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
   text-align: center;
-  gap: 16px;
-  transition: all .3s cubic-bezier(.4,0,.2,1);
 }
 
-.project-github:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,.1);
-  border-color: transparent;
+.gh-profile__octocat {
+  width: 44px;
+  height: 44px;
+  color: var(--gh-octocat);
 }
 
-.project-github__icon {
-  width: 48px;
-  height: 48px;
-  color: var(--text);
+.gh-profile__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.project-github__text {
-  font-size: .95rem;
-  color: var(--text-secondary);
+.gh-profile__username {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gh-username);
+  letter-spacing: .01em;
+  line-height: 1.2;
+}
+
+.gh-profile__tagline {
+  font-size: .73rem;
+  color: var(--gh-tagline);
+  letter-spacing: .03em;
+}
+
+/* ---- Activity section ---- */
+.gh-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gh-grid-line);
+}
+
+.gh-activity__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.gh-activity__title {
+  font-size: .74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .065em;
+  color: var(--gh-section-title);
+}
+
+.gh-activity__meta {
+  font-size: .71rem;
+  color: var(--gh-meta-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Bar chart ---- */
+.gh-chart-wrap {
+  position: relative;
+}
+
+.gh-chart__grid {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  pointer-events: none;
+}
+
+.gh-chart__grid span {
+  display: block;
+  height: 1px;
+  background: var(--gh-grid-line);
+}
+
+.gh-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 72px;
+  position: relative;
+}
+
+.gh-bar {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.gh-bar__fill {
+  width: 100%;
+  background: linear-gradient(to top, var(--accent) 0%, #7c3aed 100%);
+  border-radius: 2px 2px 0 0;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--bar-i, 0) * 16ms);
+}
+
+.gh-bar--peak .gh-bar__fill {
+  background: linear-gradient(to top, #7c3aed 0%, #a78bfa 100%);
+}
+
+.gh-bar--zero .gh-bar__fill {
+  background: var(--gh-bar-zero);
+}
+
+.gh-chart--animated .gh-bar__fill {
+  transform: scaleY(1);
+}
+
+.gh-chart__days {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: .61rem;
+  font-family: var(--font-mono);
+  color: var(--gh-days-color);
+  letter-spacing: .02em;
+}
+
+/* ---- CTA (below centered profile) ---- */
+.gh-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gh-cta-border);
+  background: var(--gh-cta-bg);
+  color: var(--gh-cta-color);
+  font-size: .82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .22s ease, border-color .22s ease, gap .22s ease;
+}
+
+.project-github--insights:hover .gh-cta {
+  gap: 10px;
+}
+
+.gh-cta svg {
+  width: 13px;
+  height: 13px;
+  transition: transform .22s ease;
+}
+
+.project-github--insights:hover .gh-cta svg {
+  transform: translate(2px, -2px);
+}
+
+/* ---- Responsive ---- */
+@media (min-width: 768px) {
+  .project-github--insights {
+    padding: 30px 30px 26px;
+    gap: 24px;
+  }
+
+  .gh-chart {
+    height: 82px;
+  }
+}
+
+@media (max-width: 479px) {
+  .project-github--insights {
+    padding: 20px 18px 18px;
+    gap: 18px;
+  }
+
+  .gh-activity__header {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
 }
 

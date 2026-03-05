@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const { getGithubStats } = require('./server/github-stats');
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,31 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => res.render('index'));
 app.use(express.static(path.join(__dirname)));
+
+app.get('/api/github/stats', async (_req, res) => {
+  try {
+    const payload = await getGithubStats();
+    res.json(payload);
+  } catch (err) {
+    console.error('[github-stats] Unexpected route error:', err);
+    res.status(200).json({
+      ok: false,
+      username: process.env.GITHUB_USERNAME || 'sk8ingDuck',
+      profileUrl: `https://github.com/${process.env.GITHUB_USERNAME || 'sk8ingDuck'}`,
+      stats: {
+        publicRepos: 0,
+        totalStars: 0,
+        pushes30d: 0,
+      },
+      activity: {
+        dailyPushes30d: new Array(30).fill(0),
+        maxDailyPushes: 0,
+      },
+      cachedAt: new Date().toISOString(),
+      source: 'fallback',
+    });
+  }
+});
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

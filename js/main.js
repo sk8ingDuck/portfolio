@@ -290,6 +290,12 @@
         s.el.style.opacity = s.lifeOpacity.toFixed(3);
       }
 
+      const darkTheme = isDarkTheme();
+      const nearLinkAlphaBase = darkTheme ? 0.20 : 0.22;
+      const farLinkAlphaBase = darkTheme ? 0.14 : 0.15;
+      const nearLinkWidth = darkTheme ? 1.0 : 1.0;
+      const farLinkWidth = darkTheme ? 0.8 : 0.85;
+
       for (let i = 0; i < projected.length; i++) {
         const a = projected[i];
         if (a.opacity < 0.18) continue;
@@ -311,15 +317,15 @@
 
           const visibility = Math.min(a.opacity, b.opacity);
           const alpha = (bothNear
-            ? 0.20 * (1 - dist / maxDist)
-            : 0.14 * (1 - dist / maxDist)) * visibility;
+            ? nearLinkAlphaBase * (1 - dist / maxDist)
+            : farLinkAlphaBase * (1 - dist / maxDist)) * visibility;
           if (alpha <= 0.01) continue;
 
           linkCtx.beginPath();
           linkCtx.moveTo(a.x, a.y);
           linkCtx.lineTo(b.x, b.y);
           linkCtx.strokeStyle = linkColor(alpha);
-          linkCtx.lineWidth = bothNear ? 1.0 : 0.8;
+          linkCtx.lineWidth = bothNear ? nearLinkWidth : farLinkWidth;
           linkCtx.stroke();
         }
       }
@@ -415,47 +421,402 @@
     skillsRevealObserver.observe(skillsCharts);
   }
 
-  // --- Why Section: Stat Counters + Border Sweep ---
+  // --- Why Section: Graphical Animations ---
   const whyStats = document.querySelector('.why__stats');
   if (whyStats) {
-    function countUp(el) {
-      const target = +el.dataset.count;
-      const suffix = el.dataset.suffix || '';
-      const duration = 1600;
-      const start = performance.now();
-      function tick(now) {
-        const t = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
-        el.textContent = Math.round(eased * target) + suffix;
-        if (t < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          el.textContent = target + suffix;
-          el.classList.add('why__stat-num--done');
+    const donutFill = whyStats.querySelector('.why__donut-fill');
+    const flowWrap = document.querySelector('.why__flow-wrap');
+    const chartWrap = document.querySelector('.why__chart-wrap');
+    const mediaSegments = flowWrap
+      ? flowWrap.querySelectorAll('.why__media-art path, .why__media-art rect')
+      : [];
+    let whyAnimated = false;
+    let whyObserver;
+    let mediaPrepared = false;
+
+    function prepareMediaSegments() {
+      if (mediaPrepared || !mediaSegments.length) return;
+      mediaPrepared = true;
+      mediaSegments.forEach((seg, i) => {
+        let len = 88;
+        if (typeof seg.getTotalLength === 'function') {
+          try {
+            len = Math.max(14, Math.ceil(seg.getTotalLength()));
+          } catch (_) {
+            len = 88;
+          }
         }
-      }
-      requestAnimationFrame(tick);
+        seg.style.setProperty('--seg-len', String(len));
+        seg.style.setProperty('--seg-delay', `${i * 55}ms`);
+      });
     }
 
-    const statsObserver = new IntersectionObserver((entries) => {
+    function triggerWhyAnimations() {
+      if (whyAnimated) return;
+      whyAnimated = true;
+      if (whyObserver) whyObserver.unobserve(whyStats);
+
+      // Donut: CSS keyframe animation (draw + bounce)
+      if (donutFill) {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          donutFill.classList.add('why__donut--animated');
+        }));
+      }
+
+      // Result chart: one-time class trigger for CSS animations
+      if (flowWrap || chartWrap) {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          prepareMediaSegments();
+          if (flowWrap) {
+            flowWrap.classList.add('why__chart--animated');
+          }
+          if (chartWrap) {
+            chartWrap.classList.add('why__chart--animated');
+          }
+        }));
+      }
+    }
+
+    whyObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const cards = entry.target.querySelectorAll('.why__stat');
-        const nums  = entry.target.querySelectorAll('.why__stat-num[data-count]');
-        // Border sweep: staggered per card
-        cards.forEach((card, i) => {
-          setTimeout(() => card.classList.add('why__stat--animate'), i * 160);
-        });
-        // Counter: starts slightly after reveal animation settles
-        nums.forEach((num, i) => {
-          setTimeout(() => countUp(num), 350 + i * 160);
-        });
-        statsObserver.unobserve(entry.target);
+        if (!entry.isIntersecting || whyAnimated) return;
+
+        // If the PCB loader is still covering the page, defer until it's removed
+        const loaderEl = document.getElementById('pcb-loader');
+        if (loaderEl) {
+          const mo = new MutationObserver(() => {
+            if (!document.getElementById('pcb-loader')) {
+              mo.disconnect();
+              const r = whyStats.getBoundingClientRect();
+              if (r.top < window.innerHeight && r.bottom > 0) {
+                triggerWhyAnimations();
+              }
+            }
+          });
+          mo.observe(document.body, { childList: true, subtree: true });
+          return;
+        }
+
+        triggerWhyAnimations();
       });
     }, { threshold: 0.25 });
 
-    statsObserver.observe(whyStats);
+    whyObserver.observe(whyStats);
   }
+
+  // --- Hourglass Animation ---
+  const hgWrap    = document.querySelector('.why__hg-wrap');
+  const hgSandTop = document.getElementById('hgSandTop');
+  const hgSandBot = document.getElementById('hgSandBot');
+  const hgStream  = document.getElementById('hgStream');
+
+  if (hgWrap && hgSandTop && hgSandBot && hgStream) {
+    const FLOW_MS               = 6000;
+    const FLIP_MS               = 1150;
+    const STREAM_HIDE_MS        = 500;
+    const CYCLE_MS              = FLOW_MS + STREAM_HIDE_MS;
+    const STREAM_FALL_MS        = 800;
+    const BOT_SAND_MS           = FLOW_MS - STREAM_FALL_MS;
+    const STREAM_OVERLAP_PX     = 0.8;
+    const STREAM_TOP_JOIN_Y     = 250;
+    const STREAM_TOP_Y          = STREAM_TOP_JOIN_Y - STREAM_OVERLAP_PX;
+    const STREAM_FALL_START_Y   = 252 + STREAM_OVERLAP_PX;
+    const STREAM_FALL_END_Y     = 448 + STREAM_OVERLAP_PX;
+    const STREAM_BOT_FINAL_Y    = 262 + STREAM_OVERLAP_PX;
+
+    let hgRafId = null;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    hgWrap.style.setProperty('--flip-ms', `${FLIP_MS}ms`);
+
+    function hgReset() {
+      hgSandTop.setAttribute('y',      '64');
+      hgSandTop.setAttribute('height', '186');
+      hgSandBot.setAttribute('y',      '448');
+      hgSandBot.setAttribute('height', '0');
+      hgStream.setAttribute('opacity', '0');
+      hgStream.setAttribute('y',       STREAM_TOP_Y);
+      hgStream.setAttribute('height',  Math.max(0, STREAM_FALL_START_Y - STREAM_TOP_Y));
+    }
+
+    function hgStartFlow() {
+      if (hgRafId) cancelAnimationFrame(hgRafId);
+      const t0 = performance.now();
+
+      function frame(now) {
+        const elapsed = now - t0;
+        const tFlow  = clamp(elapsed / FLOW_MS,                         0, 1);
+        const tHide  = clamp((elapsed - FLOW_MS) / STREAM_HIDE_MS,      0, 1);
+        const tCycle = clamp(elapsed / CYCLE_MS,                         0, 1);
+        const tFall  = clamp(elapsed / STREAM_FALL_MS,                  0, 1);
+        const tTop   = tFlow;
+        const tBot   = clamp((elapsed - STREAM_FALL_MS) / BOT_SAND_MS,  0, 1);
+
+        // Top sand drains immediately
+        hgSandTop.setAttribute('y',      lerp(64,  250, tTop));
+        hgSandTop.setAttribute('height', Math.max(0, lerp(186, 0, tTop)));
+
+        // Bottom sand fills after stream reaches bottom
+        hgSandBot.setAttribute('y',      lerp(448, 262, tBot));
+        hgSandBot.setAttribute('height', Math.max(0, lerp(0, 186, tBot)));
+
+        // Stream: grows downward, then collapses from top after flow ends
+        let streamTopY = STREAM_TOP_Y;
+        let streamBotYFlow;
+        if (tFall < 1) {
+          streamBotYFlow = lerp(STREAM_FALL_START_Y, STREAM_FALL_END_Y, tFall);
+        } else {
+          streamBotYFlow = lerp(448, 262, tBot) + STREAM_OVERLAP_PX;
+        }
+        const streamBotY = tFlow < 1 ? streamBotYFlow : STREAM_BOT_FINAL_Y;
+        if (tFlow >= 1) {
+          streamTopY = lerp(STREAM_TOP_Y, STREAM_BOT_FINAL_Y, tHide);
+        }
+        hgStream.setAttribute('y',      streamTopY);
+        hgStream.setAttribute('height', Math.max(0, streamBotY - streamTopY));
+
+        // Fade in at very start, out at very end of cycle
+        let op;
+        if      (tCycle < 0.03) op = tCycle / 0.03;
+        else if (tCycle > 0.97) op = (1 - tCycle) / 0.03;
+        else                    op = 1;
+        hgStream.setAttribute('opacity', op);
+
+        if (elapsed < CYCLE_MS) {
+          hgRafId = requestAnimationFrame(frame);
+        } else {
+          hgDoRotate();
+        }
+      }
+
+      hgRafId = requestAnimationFrame(frame);
+    }
+
+    function hgDoRotate() {
+      hgWrap.classList.add('hg-rotating');
+      setTimeout(() => {
+        hgWrap.classList.remove('hg-rotating');
+        hgWrap.style.transform = '';
+        hgReset();
+        setTimeout(hgStartFlow, 200);
+      }, FLIP_MS);
+    }
+
+    hgReset();
+    setTimeout(hgStartFlow, 300);
+  }
+
+  // --- Why Stat Cards: 3D press-in tilt ---
+  document.querySelectorAll('.why__stat-card').forEach(card => {
+    const MAX_TILT = 7;
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const dx = (e.clientX - rect.left) / rect.width  - 0.5;
+      const dy = (e.clientY - rect.top)  / rect.height - 0.5;
+      const rotX = -dy * MAX_TILT;
+      const rotY = -dx * MAX_TILT;
+      card.style.transition = 'transform 0.05s linear, box-shadow 0.08s linear';
+      card.style.transform  = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(0.985)`;
+      card.style.boxShadow  = 'inset 0 4px 16px rgba(0,0,0,0.09), 0 0 0 1.5px rgba(37,99,235,0.18), 0 2px 6px rgba(37,99,235,0.04)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s cubic-bezier(.4,0,.2,1), box-shadow 0.5s ease';
+      card.style.transform  = '';
+      card.style.boxShadow  = '';
+      card.addEventListener('transitionend', () => { card.style.transition = ''; }, { once: true });
+    });
+  });
+
+  // --- GitHub Insights Card ---
+  const githubCard = document.querySelector('[data-gh-card]');
+  if (githubCard) {
+    const chartEl  = githubCard.querySelector('[data-gh-chart]');
+    const metaEl   = githubCard.querySelector('[data-gh-meta]');
+    let chartObserver = null;
+
+    function renderChart(series) {
+      if (!chartEl) return;
+      const DAYS = 30;
+      const raw    = Array.isArray(series) ? series : [];
+      const values = raw.slice(-DAYS).map(v => Math.max(0, Number(v) || 0));
+      while (values.length < DAYS) values.unshift(0);
+
+      const maxVal    = Math.max(...values, 1);
+      const peakIdx   = values.reduce((best, v, i) => v > values[best] ? i : best, 0);
+      const activeDays = values.filter(v => v > 0).length;
+
+      if (metaEl) {
+        metaEl.textContent = activeDays > 0
+          ? `${activeDays} aktive Tag${activeDays === 1 ? '' : 'e'}`
+          : '';
+      }
+
+      chartEl.innerHTML = '';
+      chartEl.classList.remove('gh-chart--animated');
+
+      const frag = document.createDocumentFragment();
+      values.forEach((val, i) => {
+        const bar  = document.createElement('div');
+        const fill = document.createElement('div');
+
+        let cls = 'gh-bar';
+        if (val === 0) cls += ' gh-bar--zero';
+        else if (i === peakIdx) cls += ' gh-bar--peak';
+        bar.className  = cls;
+        fill.className = 'gh-bar__fill';
+        fill.style.setProperty('--bar-i', i);
+        fill.style.height = val === 0
+          ? '3px'
+          : `${Math.max(5, Math.round(val / maxVal * 100))}%`;
+
+        bar.appendChild(fill);
+        frag.appendChild(bar);
+      });
+      chartEl.appendChild(frag);
+
+      if (chartObserver) chartObserver.disconnect();
+
+      function triggerAnim() {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          chartEl.classList.add('gh-chart--animated');
+        }));
+      }
+
+      const rect = chartEl.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        triggerAnim();
+      } else {
+        chartObserver = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) { triggerAnim(); chartObserver.disconnect(); }
+        }, { threshold: 0.1 });
+        chartObserver.observe(chartEl);
+      }
+    }
+
+    async function hydrateGithubCard() {
+      renderChart([]);
+
+      try {
+        const res = await fetch('/api/github/stats', { headers: { Accept: 'application/json' } });
+        let payload = null;
+        try { payload = await res.json(); } catch (_) {}
+
+        if (!res.ok || !payload || !payload.stats) throw new Error('unavailable');
+
+        renderChart(payload.activity && payload.activity.dailyPushes30d);
+      } catch (_) {
+        renderChart([]);
+      }
+    }
+
+    hydrateGithubCard();
+  }
+
+  // --- Projects Carousel (3D glass) ---
+  (function initProjectsCarousel() {
+    const stage = document.getElementById('projectsStage');
+    if (!stage) return;
+
+    const carousel = stage.closest('.projects__carousel');
+    const slides   = Array.from(stage.querySelectorAll('.projects__slide'));
+    const dots     = Array.from(carousel.querySelectorAll('.carousel__dot'));
+    const btnPrev  = document.getElementById('projectsPrev');
+    const btnNext  = document.getElementById('projectsNext');
+    const total    = slides.length;
+    let activeIndex = 0;
+
+    function update() {
+      slides.forEach((slide, index) => {
+        let offset = index - activeIndex;
+        if (offset > Math.floor(total / 2)) offset -= total;
+        if (offset < -Math.floor(total / 2)) offset += total;
+
+        let cls = 'hidden';
+        if (offset === 0)       cls = 'active';
+        else if (offset === -1) cls = 'left';
+        else if (offset === 1)  cls = 'right';
+        else if (offset < -1)   cls = 'far-left';
+        else if (offset > 1)    cls = 'far-right';
+
+        slide.className = `projects__slide projects__slide--${cls}`;
+      });
+
+      dots.forEach((d, i) => {
+        d.classList.toggle('carousel__dot--active', i === activeIndex);
+        d.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
+      });
+    }
+
+    // Click on non-active slides → navigate; active slide follows link normally
+    slides.forEach((slide, index) => {
+      slide.addEventListener('click', e => {
+        if (index !== activeIndex) {
+          e.preventDefault();
+          activeIndex = index;
+          update();
+        }
+      });
+    });
+
+    dots.forEach((d, i) => d.addEventListener('click', () => { activeIndex = i; update(); }));
+
+    btnPrev?.addEventListener('click', () => { activeIndex = (activeIndex - 1 + total) % total; update(); });
+    btnNext?.addEventListener('click', () => { activeIndex = (activeIndex + 1) % total; update(); });
+
+    carousel.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); activeIndex = (activeIndex + 1) % total; update(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); activeIndex = (activeIndex - 1 + total) % total; update(); }
+    });
+
+    // --- Drag to navigate ---
+    // Prevent the browser's native HTML5 link-drag on <a> elements,
+    // which would capture the pointer and kill our pointermove tracking
+    stage.addEventListener('dragstart', e => e.preventDefault());
+
+    let dragStartX  = null;
+    let didSwipe    = false;
+    const SWIPE_MIN = 50;
+
+    stage.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      dragStartX = e.clientX;
+      didSwipe   = false;
+      stage.setPointerCapture(e.pointerId);
+      stage.style.cursor = 'grabbing';
+    });
+
+    stage.addEventListener('pointermove', e => {
+      if (dragStartX === null) return;
+      if (Math.abs(e.clientX - dragStartX) > 8) didSwipe = true;
+    });
+
+    stage.addEventListener('pointerup', e => {
+      if (dragStartX === null) return;
+      const delta = dragStartX - e.clientX; // positive → dragged left → next
+      dragStartX  = null;
+      stage.style.cursor = '';
+
+      if (!didSwipe || Math.abs(delta) < SWIPE_MIN) { didSwipe = false; return; }
+
+      if (delta > 0) activeIndex = (activeIndex + 1) % total;
+      else           activeIndex = (activeIndex - 1 + total) % total;
+      update();
+
+      // Keep flag alive long enough for the ensuing click event to read it
+      setTimeout(() => { didSwipe = false; }, 50);
+    });
+
+    // Cancel the click that fires immediately after a drag release
+    stage.addEventListener('click', e => {
+      if (didSwipe) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    update();
+  })();
 
   // --- Contact form ---
   const form = document.getElementById('contactForm');

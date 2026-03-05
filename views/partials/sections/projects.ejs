@@ -45,90 +45,225 @@
           Eine Auswahl meiner bisherigen Projekte: Kundenprojekte für lokale Unternehmen und eigene Arbeiten auf GitHub.
         </p>
       </div>
-      <div class="projects__grid">
+      <!-- 3D Glass Carousel -->
+      <div class="projects__carousel reveal" role="region" aria-label="Projekte Karussell" aria-roledescription="carousel">
 
-        <!-- Projekt 1 -->
-        <a href="https://bonema.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card reveal" data-delay="1">
-          <div class="project-card__browser">
-            <div class="project-card__dots">
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-            </div>
-            <span class="project-card__url">bonema.alexander-atanasov.de</span>
-          </div>
-          <div class="project-card__preview project-card__preview--1">
-            <span class="project-card__preview-text">Bonema</span>
-          </div>
-          <div class="project-card__body">
-            <p class="project-card__label">Kundenprojekt</p>
-            <h3 class="project-card__name">Pizzeria Bonema</h3>
-            <span class="project-card__link">
-              Webseite besuchen
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
-            </span>
-          </div>
-        </a>
+        <div class="projects__stage" id="projectsStage">
 
-        <!-- Projekt 2 -->
-        <a href="https://stadelmann.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card reveal" data-delay="2">
-          <div class="project-card__browser">
-            <div class="project-card__dots">
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-            </div>
-            <span class="project-card__url">stadelmann.alexander-atanasov.de</span>
+          <!-- Slide 1: Bonema -->
+          <div class="projects__slide" data-carousel-idx="0" role="group" aria-roledescription="slide" aria-label="1 von 7">
+            <a href="https://bonema.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">bonema.alexander-atanasov.de</span>
+              </div>
+              <div class="project-card__preview">
+                <img class="project-card__thumb" src="assets/projects/bonema.jpg" alt="Vorschau der Landingpage von Pizzeria Bonema" loading="lazy" decoding="async">
+              </div>
+              <div class="project-card__body">
+<h3 class="project-card__name">Pizzeria Bonema</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
           </div>
-          <div class="project-card__preview project-card__preview--2">
-            <span class="project-card__preview-text">Stadelmann</span>
-          </div>
-          <div class="project-card__body">
-            <p class="project-card__label">Kundenprojekt</p>
-            <h3 class="project-card__name">Stadelmann Mietservice</h3>
-            <span class="project-card__link">
-              Webseite besuchen
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
-            </span>
-          </div>
-        </a>
 
-        <!-- Projekt 3 -->
-        <a href="https://werdewiederstark.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card reveal" data-delay="3">
-          <div class="project-card__browser">
-            <div class="project-card__dots">
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-              <span class="project-card__dot"></span>
-            </div>
-            <span class="project-card__url">werdewiederstark.alexander-atanasov.de</span>
+          <!-- Slide 2: Stadelmann -->
+          <div class="projects__slide" data-carousel-idx="1" role="group" aria-roledescription="slide" aria-label="2 von 7">
+            <a href="https://stadelmann.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">stadelmann.alexander-atanasov.de</span>
+              </div>
+              <div class="project-card__preview">
+                <img class="project-card__thumb" src="assets/projects/stadelmann.jpg" alt="Vorschau der Landingpage von Stadelmann Mietservice" loading="lazy" decoding="async">
+              </div>
+              <div class="project-card__body">
+<h3 class="project-card__name">Stadelmann Mietservice</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
           </div>
-          <div class="project-card__preview project-card__preview--3">
-            <span class="project-card__preview-text">WerdeWiederStark</span>
-          </div>
-          <div class="project-card__body">
-            <p class="project-card__label">Kundenprojekt</p>
-            <h3 class="project-card__name">WerdeWiederStark</h3>
-            <span class="project-card__link">
-              Webseite besuchen
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
-            </span>
-          </div>
-        </a>
 
-        <!-- GitHub -->
-        <a href="https://github.com/sk8ingDuck" target="_blank" rel="noopener" class="project-github reveal" data-delay="4">
-          <svg class="project-github__icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.31-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/>
-          </svg>
-          <p class="project-github__text">Mehr Kundenprojekte und persönliche Projekte auf GitHub.</p>
-          <span class="project-card__link">
-            Mehr auf GitHub
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
-          </span>
-        </a>
+          <!-- Slide 3: WerdeWiederStark -->
+          <div class="projects__slide" data-carousel-idx="2" role="group" aria-roledescription="slide" aria-label="3 von 7">
+            <a href="https://werdewiederstark.alexander-atanasov.de" target="_blank" rel="noopener" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">werdewiederstark.alexander-atanasov.de</span>
+              </div>
+              <div class="project-card__preview">
+                <img class="project-card__thumb" src="assets/projects/werdewiederstark.jpg" alt="Vorschau der Landingpage von WerdeWiederStark" loading="lazy" decoding="async">
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__name">WerdeWiederStark</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Slide 4: Dummy Projekt A -->
+          <div class="projects__slide" data-carousel-idx="3" role="group" aria-roledescription="slide" aria-label="4 von 7">
+            <a href="#" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">mueller-handwerk.de</span>
+              </div>
+              <div class="project-card__preview" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);"></div>
+              <div class="project-card__body">
+                <h3 class="project-card__name">Müller Handwerk</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Slide 5: Dummy Projekt B -->
+          <div class="projects__slide" data-carousel-idx="4" role="group" aria-roledescription="slide" aria-label="5 von 7">
+            <a href="#" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">fitbase-studio.de</span>
+              </div>
+              <div class="project-card__preview" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);"></div>
+              <div class="project-card__body">
+                <h3 class="project-card__name">FitBase Studio</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Slide 6: Dummy Projekt C -->
+          <div class="projects__slide" data-carousel-idx="5" role="group" aria-roledescription="slide" aria-label="6 von 7">
+            <a href="#" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">becker-immobilien.de</span>
+              </div>
+              <div class="project-card__preview" style="background: linear-gradient(135deg, #fef3c7, #fde68a);"></div>
+              <div class="project-card__body">
+                <h3 class="project-card__name">Becker Immobilien</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Slide 7: Dummy Projekt D -->
+          <div class="projects__slide" data-carousel-idx="6" role="group" aria-roledescription="slide" aria-label="7 von 7">
+            <a href="#" class="project-card">
+              <div class="project-card__browser">
+                <div class="project-card__dots">
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                  <span class="project-card__dot"></span>
+                </div>
+                <span class="project-card__url">schneider-zahnarzt.de</span>
+              </div>
+              <div class="project-card__preview" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe);"></div>
+              <div class="project-card__body">
+                <h3 class="project-card__name">Zahnarzt Schneider</h3>
+                <span class="project-card__link">
+                  Demoseite anschauen
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="carousel-controls">
+          <button class="carousel__arrow" id="projectsPrev" aria-label="Vorheriges Projekt">&#8249;</button>
+          <div class="carousel__dots" id="projectsDots" role="tablist" aria-label="Folie auswählen">
+            <button class="carousel__dot" role="tab" aria-label="Folie 1" data-idx="0"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 2" data-idx="1"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 3" data-idx="2"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 4" data-idx="3"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 5" data-idx="4"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 6" data-idx="5"></button>
+            <button class="carousel__dot" role="tab" aria-label="Folie 7" data-idx="6"></button>
+          </div>
+          <button class="carousel__arrow" id="projectsNext" aria-label="Nächstes Projekt">&#8250;</button>
+        </div>
 
       </div>
+
+      <!-- GitHub Insights (below carousel) -->
+      <p class="gh-desc-outer reveal">Mehr Projekte auf GitHub</p>
+      <a href="https://github.com/sk8ingDuck" target="_blank" rel="noopener" class="project-github project-github--insights reveal" data-gh-card>
+
+        <!-- Centered profile -->
+        <div class="gh-profile">
+          <svg class="gh-profile__octocat" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.31-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/>
+          </svg>
+          <div class="gh-profile__info">
+            <span class="gh-profile__username">sk8ingDuck</span>
+            <span class="gh-profile__tagline">GitHub &middot; Open Source</span>
+          </div>
+          <span class="gh-cta">
+            Profil ansehen
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h7v7"/><path d="M13 3 6 10"/></svg>
+          </span>
+        </div>
+
+        <!-- Activity bar chart -->
+        <div class="gh-activity">
+          <div class="gh-activity__header">
+            <span class="gh-activity__title">Aktivit&auml;t &middot; Letzte 30 Tage</span>
+            <span class="gh-activity__meta" data-gh-meta aria-live="polite"></span>
+          </div>
+          <div class="gh-chart-wrap">
+            <div class="gh-chart__grid" aria-hidden="true"><span></span><span></span></div>
+            <div class="gh-chart" data-gh-chart aria-hidden="true"></div>
+          </div>
+          <div class="gh-chart__days" aria-hidden="true">
+            <span>vor 30 Tagen</span>
+            <span>heute</span>
+          </div>
+        </div>
+
+      </a>
     </div>
   </section>
 

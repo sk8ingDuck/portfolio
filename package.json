@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "visual:check": "node scripts/visual-check.js --loader",
+    "screenshots:projects": "node scripts/visual-check.js --projects"
   },
   "dependencies": {
     "dotenv": "^16.0.0",

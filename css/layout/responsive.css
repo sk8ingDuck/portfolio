@@ -3,9 +3,9 @@
    ======================================== */
 
 @media (min-width: 640px) {
-  .projects__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .projects__carousel { --shift-x: 40vw; }
+  .projects__stage { height: 555px; }
+  .projects__slide { width: clamp(300px, 36vw, 450px); }
 
   .contact-form {
     padding: 40px;
@@ -79,8 +79,20 @@
   }
 
   .project-card__preview {
-    height: 210px;
+    min-height: 210px;
   }
+
+  .projects__carousel { --shift-x: 34vw; }
+  .projects__stage { height: 575px; }
+  .projects__slide { width: clamp(340px, 30vw, 490px); }
+}
+
+/* ========================================
+   Responsive: 1200px+ (wide desktop)
+   ======================================== */
+
+@media (min-width: 1200px) {
+  .projects__carousel { --shift-x: 380px; }
 }
 
 /* ========================================
@@ -221,6 +233,12 @@
   .nav__item--mobile .nav__link--cta:active {
     opacity: .85;
   }
+
+  .projects__carousel { --shift-x: 38vw; }
+  .projects__stage { height: 480px; }
+  .projects__slide { width: 75vw; }
+  .projects__slide--left  { transform: translate3d(-45%, 0, -250px) rotateY(45deg) scale(0.8); }
+  .projects__slide--right { transform: translate3d(45%,  0, -250px) rotateY(-45deg) scale(0.8); }
 
   .section-header {
     flex-wrap: wrap;
